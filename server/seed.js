@@ -36,7 +36,7 @@ const randReviews = () => {
   } else if (num === 1) {
     return 1;
   }
-  return ' (' + num + ')';
+  return ` (${num})`;
 };
 
 const generateReview = () => {
@@ -120,13 +120,13 @@ const randTitle = () => {
   let index1 = random(0, adjectives.length, true);
   let index2 = random(0, nouns.length, true);
   let index3 = random(0, add_ons.length, true);
-  return titles[index] + ' - ' + adjectives[index1] +
+  return titles[index] + ' • ' + adjectives[index1] +
   nouns[index2] + add_ons[index3];
 };
 
 const randPrice = () => {
   let num = random(300, 2000, true);
-  return '$' + num + ' / night';
+  return `$${num} / night`;
 };
 
 let images = [
