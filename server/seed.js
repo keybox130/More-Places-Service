@@ -129,8 +129,39 @@ const randPrice = () => {
   return '$' + num + ' / night';
 };
 
+let images = [
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/adam-winger-VGs8z60yT2c-unsplash.jpg',
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/deborah-cortelazzi-gREquCUXQLI-unsplash.jpg',
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/irina-murza-PJMbzWAz26M-unsplash.jpg',
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/greg-nunes-aQC3_2e2tU0-unsplash.jpg',
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/digital-marketing-agency-ntwrk-g39p1kDjvSY-unsplash.jpg',
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/daniel-faust-EPzfdoMYm7s-unsplash.jpg',
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/fran-hogan-lloSQSgdoyE-unsplash.jpg',
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/florian-schmidinger-b_79nOqf95I-unsplash.jpg',
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/david-veksler-VW5YwCYbPyk-unsplash.jpg',
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/daniel-faust-pQO10MluyrE-unsplash.jpg',
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/adrien-aletti-NB8stCglg9w-unsplash.jpg',
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/im3rd-media-CbZ4EDP__VQ-unsplash.jpg',
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/greg-rivers-rChFUMwAe7E-unsplash.jpg',
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/humphrey-muleba-dyj7RTs85Fs-unsplash.jpg',
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/francesca-tosolini-hCU4fimRW-c-unsplash.jpg',
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/eduard-militaru-VXiLCpne3cI-unsplash.jpg',
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/fran-hogan-zhs_y6CLWco-unsplash.jpg',
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/house-method-CqVHT8g45R8-unsplash.jpg',
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/jacques-bopp-Hh18POSx5qk-unsplash.jpg',
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/jcs-chen-sGblr5yVXiM-unsplash.jpg',
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/judy-grayson-2jk97TV-I04-unsplash.jpg',
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/kilarov-zaneit-aXq37rUfotU-unsplash.jpg',
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/mark-champs-Id2IIl1jOB0-unsplash.jpg',
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/naomi-ellsworth-EMPLSuvDuhQ-unsplash.jpg',
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/naomi-hebert-MP0bgaS_d1c-unsplash.jpg',
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/nuzha-naashidh-D98T9aHmLP0-unsplash.jpg',
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/patrick-perkins-3wylDrjxH-E-unsplash.jpg',
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/patrick-perkins-iRiVzALa4pI-unsplash.jpg'
+];
 const imageUrl = () => {
-  //how to access AWS S3 images from bucket???
+  let index = random(0, images.length, true);
+  return images[index];
 }
 
 const seed = () => {
@@ -142,7 +173,7 @@ const seed = () => {
       listing: listing(),
       title: randTitle(),
       price: randPrice(),
-      image: //AWS S3 url
+      image: imageUrl()
     }, (err, data) => {
       if (err) {
         res.status(400).send(err);
