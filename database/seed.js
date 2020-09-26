@@ -173,7 +173,7 @@ const generatePhotos = () => {
   for (let j = 0; j < 12; j += 1) {
     const photo = {};
     photo.superhost = newBoolean();
-    console.log()
+    console.log();
     photo.heart = newBoolean();
     photo.reviews = generateReview();
     photo.listing = listing();
@@ -193,12 +193,12 @@ const seed = (/* callback */) => {
     roomData.photos = generatePhotos();
     results.push(roomData);
   }
-  Listing.insertMany(results, (err, docs) => {
+  Listing.insertMany(results, (err, data) => {
     if (err) {
       console.log(err);
       // callback(err);
     } else {
-      // console.log('Seeding successful! ', docs);
+      console.log('Seeding successful! ', data);
       // console.log(Listing.find());
       // callback('Added to db: ', data);
     }
