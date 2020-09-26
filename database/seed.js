@@ -4,14 +4,17 @@ const { db } = require('./index');
 db.dropDatabase();
 
 const random = (min, max, floor) => {
+  let num;
   if (floor) {
-    return Math.floor(min + Math.random * (max - min));
+    num = min + Math.floor(Math.random() * (max - min));
+    return num;
   }
-  return min + Math.random * (max - min);
+  num = (min + (Math.random() * (max - min))).toFixed(2);
+  return num;
 };
 
 const newBoolean = () => {
-  const num = random(0, 2, true);
+  const num = random(0, 10, true);
   if (num % 2 === 0) {
     return true;
   }
@@ -21,15 +24,16 @@ const newBoolean = () => {
 const randRating = () => {
   const chance = random(0, 100, true);
   if (chance > 20) { // arbitrarily set chance of reviews below 4 to 20%
-    const num = random(0, 1, false);
-    return (4 + num).toString();
+    const num = random(4, 5, false);
+    console.log(num);
+    return `${num}`;
   }
-  const num = random(0, 3, false);
-  return (1 + num).toString();
+  const num = random(1, 3, false);
+  return `${num}`;
 };
 
 const randReviews = () => {
-  const num = random(0, 1000, true);
+  const num = random(0, 1500, true);
   if (num === 0) {
     return 0;
   }
@@ -121,7 +125,7 @@ const randTitle = () => {
   const index1 = random(0, adjectives.length, true);
   const index2 = random(0, nouns.length, true);
   const index3 = random(0, addOns.length, true);
-  return `${titles[index]} • ${adjectives[index1]}  ${nouns[index2]} ${addOns[index3]}`;
+  return `${titles[index]} • ${adjectives[index1]}${nouns[index2]}${addOns[index3]}`;
 };
 
 const randPrice = () => {
@@ -164,27 +168,38 @@ const imageUrl = () => {
   return images[index];
 };
 
+const generatePhotos = () => {
+  const photos = [];
+  for (let j = 0; j < 12; j += 1) {
+    const photo = {};
+    photo.superhost = newBoolean();
+    console.log()
+    photo.heart = newBoolean();
+    photo.reviews = generateReview();
+    photo.listing = listing();
+    photo.title = randTitle();
+    photo.price = randPrice();
+    photo.image = imageUrl();
+    photos.push(photo);
+  }
+  return photos;
+};
+
 const seed = (/* callback */) => {
   const results = [];
   for (let i = 1; i <= 100; i += 1) {
-    for (let j = 0; j < 20; j += 1) {
-      const roomData = {};
-      roomData.id = i;
-      roomData.superhost = newBoolean();
-      roomData.heart = newBoolean();
-      roomData.reviews = generateReview();
-      roomData.listing = listing();
-      roomData.title = randTitle();
-      roomData.price = randPrice();
-      roomData.image = imageUrl();
-    }
+    const roomData = {};
+    roomData.id = i;
+    roomData.photos = generatePhotos();
+    results.push(roomData);
   }
-  Listing.insertMany(results, (err, data) => {
+  Listing.insertMany(results, (err, docs) => {
     if (err) {
       console.log(err);
       // callback(err);
     } else {
-      console.log('Seeding successful! ', data);
+      // console.log('Seeding successful! ', docs);
+      // console.log(Listing.find());
       // callback('Added to db: ', data);
     }
   });

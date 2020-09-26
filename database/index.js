@@ -7,14 +7,19 @@ db.on('error', () => { console.error.bind(console, 'connection error:'); });
 db.once('open', () => { console.log('Connection open!'); });
 
 const listingSchema = mongoose.Schema({
-  id: { type: Number, unique: true },
-  superhost: Boolean,
-  heart: Boolean,
-  reviews: String,
-  listing: String,
-  title: String,
-  price: String,
-  image: String,
+  // id: { type: Number, unique: true },
+  id: Number,
+  photos: [
+    {
+      superhost: Boolean,
+      heart: Boolean,
+      reviews: String,
+      listing: String,
+      title: String,
+      price: String,
+      image: String,
+    },
+  ],
 });
 
 const Listing = mongoose.model('Listing', listingSchema);
