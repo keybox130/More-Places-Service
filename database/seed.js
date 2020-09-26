@@ -1,6 +1,5 @@
-const mongoose = require('mongoose');
-const { Listing } = require('../database/index');
-const { db } = require('../database/index');
+const { Listing } = require('./index');
+const { db } = require('./index');
 
 db.dropDatabase();
 
@@ -12,7 +11,7 @@ const random = (min, max, floor) => {
 };
 
 const newBoolean = () => {
-  let num = random(0, 100, true);
+  const num = random(0, 2, true);
   if (num % 2 === 0) {
     return true;
   }
@@ -20,50 +19,52 @@ const newBoolean = () => {
 };
 
 const randRating = () => {
-  let chance = random(0, 100, true);
-  if (chance > 20) {//arbitrarily set chance of reviews below 4 to 20%
-    let num = random(0, 1, false);
+  const chance = random(0, 100, true);
+  if (chance > 20) { // arbitrarily set chance of reviews below 4 to 20%
+    const num = random(0, 1, false);
     return (4 + num).toString();
   }
-  let num = random(0, 3, false);
+  const num = random(0, 3, false);
   return (1 + num).toString();
 };
 
 const randReviews = () => {
-  let num = random(0, 1000, true);
+  const num = random(0, 1000, true);
   if (num === 0) {
     return 0;
-  } else if (num === 1) {
+  }
+  if (num === 1) {
     return 1;
   }
   return ` (${num})`;
 };
 
 const generateReview = () => {
-  let reviews = randReviews();
+  const reviews = randReviews();
   if (reviews === 0) {
-    return 'New'; //include "No reviews yet" case? -> no star either
-  } else if (reviews === 1) {
+    return 'New'; // include "No reviews yet" case? -> no star either
+  }
+  if (reviews === 1) {
     return '1 review';
   }
   return randRating() + reviews;
 };
 
 const listing = () => {
-  let listings = [
+  const listings = [
     'Entire house ',
     'Entire villa ',
     'Entire apartment ',
     'Entire guesthouse ',
     'Private Room ',
     'Studio ',
-    'Entire guest suite '
+    'Entire guest suite ',
   ];
-  let num_beds = random(0, 10, true) + ' beds';
-  return listings[random(0, 6, true)] + num_beds;
+  const numBeds = `${random(0, 10, true)} beds`;
+  return listings[random(0, 6, true)] + numBeds;
 };
 
-let titles = [
+const titles = [
   'Marton End',
   'Honeysuckle Lodge',
   'Seaside Escape',
@@ -80,9 +81,9 @@ let titles = [
   'Orchard End',
   'Primrose Way',
   'Serendipity',
-  'Garden Grove'
+  'Garden Grove',
 ];
-let adjectives = [
+const adjectives = [
   'Stunning',
   'Spacious',
   'Private home',
@@ -92,18 +93,18 @@ let adjectives = [
   'Bright',
   'Charming',
   'Luxurious',
-  'Modern'
+  'Modern',
 ];
-let nouns = [
+const nouns = [
   ' escape',
   ' bungalow',
   ' retreat',
   ' getaway',
   ' all-inclusive stay',
   ' contemporary suite',
-  ' estate'
+  ' estate',
 ];
-let add_ons = [
+const addOns = [
   ' w/ Jacuzzi',
   ' Downtown',
   ' Nightlife',
@@ -111,25 +112,24 @@ let add_ons = [
   ' w/ City View',
   ' close to the Beach',
   ' Near Trails',
-  ' in the Hills'
+  ' in the Hills',
 ];
 
-//pull random from array of names
+// pull random from array of names
 const randTitle = () => {
-  let index = random(0, titles.length, true);
-  let index1 = random(0, adjectives.length, true);
-  let index2 = random(0, nouns.length, true);
-  let index3 = random(0, add_ons.length, true);
-  return titles[index] + ' • ' + adjectives[index1] +
-  nouns[index2] + add_ons[index3];
+  const index = random(0, titles.length, true);
+  const index1 = random(0, adjectives.length, true);
+  const index2 = random(0, nouns.length, true);
+  const index3 = random(0, addOns.length, true);
+  return `${titles[index]} • ${adjectives[index1]}  ${nouns[index2]} ${addOns[index3]}`;
 };
 
 const randPrice = () => {
-  let num = random(300, 2000, true);
+  const num = random(300, 2000, true);
   return `$${num} / night`;
 };
 
-let images = [
+const images = [
   'https://keybox-houses.s3-us-west-1.amazonaws.com/adam-winger-VGs8z60yT2c-unsplash.jpg',
   'https://keybox-houses.s3-us-west-1.amazonaws.com/deborah-cortelazzi-gREquCUXQLI-unsplash.jpg',
   'https://keybox-houses.s3-us-west-1.amazonaws.com/irina-murza-PJMbzWAz26M-unsplash.jpg',
@@ -157,31 +157,37 @@ let images = [
   'https://keybox-houses.s3-us-west-1.amazonaws.com/naomi-hebert-MP0bgaS_d1c-unsplash.jpg',
   'https://keybox-houses.s3-us-west-1.amazonaws.com/nuzha-naashidh-D98T9aHmLP0-unsplash.jpg',
   'https://keybox-houses.s3-us-west-1.amazonaws.com/patrick-perkins-3wylDrjxH-E-unsplash.jpg',
-  'https://keybox-houses.s3-us-west-1.amazonaws.com/patrick-perkins-iRiVzALa4pI-unsplash.jpg'
+  'https://keybox-houses.s3-us-west-1.amazonaws.com/patrick-perkins-iRiVzALa4pI-unsplash.jpg',
 ];
 const imageUrl = () => {
-  let index = random(0, images.length, true);
+  const index = random(0, images.length, true);
   return images[index];
-}
+};
 
-const seed = () => {
-  for (let i = 0; i < 20; i++) {
-    Listing.create({
-      superhost: newBoolean(),
-      heart: newBoolean(),
-      reviews: generateReview(),
-      listing: listing(),
-      title: randTitle(),
-      price: randPrice(),
-      image: imageUrl()
-    }, (err, data) => {
-      if (err) {
-        res.status(400).send(err);
-      } else {
-        res.status(200).send(data);
-      }
-    });
+const seed = (/* callback */) => {
+  const results = [];
+  for (let i = 1; i <= 100; i += 1) {
+    for (let j = 0; j < 20; j += 1) {
+      const roomData = {};
+      roomData.id = i;
+      roomData.superhost = newBoolean();
+      roomData.heart = newBoolean();
+      roomData.reviews = generateReview();
+      roomData.listing = listing();
+      roomData.title = randTitle();
+      roomData.price = randPrice();
+      roomData.image = imageUrl();
+    }
   }
+  Listing.insertMany(results, (err, data) => {
+    if (err) {
+      console.log(err);
+      // callback(err);
+    } else {
+      console.log('Seeding successful! ', data);
+      // callback('Added to db: ', data);
+    }
+  });
 };
 
 seed();
