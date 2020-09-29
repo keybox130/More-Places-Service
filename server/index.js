@@ -2,10 +2,11 @@ const express = require('express');
 
 const app = express();
 const port = 3000;
-const bodyParser = require('body-parser');
+const path = require('path');
+// const bodyParser = require('body-parser');
 const { Listing } = require('../database/index.js');
 
-app.use('/', bodyParser.json());
+// app.use('/', bodyParser.json());
 
 app.get('/api/roomId/:roomId', (req, res) => {
   const { roomId } = req.params;
@@ -18,6 +19,8 @@ app.get('/api/roomId/:roomId', (req, res) => {
     }
   });
 });
+
+app.use('/', express.static(path.join(__dirname, '../client/dist')));
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

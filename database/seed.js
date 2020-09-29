@@ -163,6 +163,9 @@ const images = [
   'https://keybox-houses.s3-us-west-1.amazonaws.com/patrick-perkins-3wylDrjxH-E-unsplash.jpg',
   'https://keybox-houses.s3-us-west-1.amazonaws.com/patrick-perkins-iRiVzALa4pI-unsplash.jpg',
 ];
+// star image:
+// https://keybox-houses.s3-us-west-1.amazonaws.com/star.png
+
 const imageUrl = () => {
   const index = random(0, images.length, true);
   return images[index];
