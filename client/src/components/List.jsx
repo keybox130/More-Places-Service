@@ -5,21 +5,23 @@ import ListEntry from './ListEntry.jsx';
 
 const Container = styled.div`
   display: flex;
-  overflow: auto hidden;
-  padding-left: 0px;
-  margin-bottom: 0px;
-  margin-top: 0px;
-  min-width: 100%;
-  scroll-snap-type: x mandatory
+  overflow: auto;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+  scroll-snap-type: x mandatory;
+  width: 1280px;
+  margin: 40px auto;
+  min-height: 300px;
+  position: relative;
 `;
 
 const List = ({ listings }) => {
-  console.log('Listings props: ', listings);
   return (
     <Container>
       {listings.photos
         ? listings.photos.map((photo) => (
-          <ListEntry key={photo._id} photo={photo} />
+          <ListEntry key={photo._id} photo={photo} ref={photo.id} />
         ))
         : <h1>Loading...</h1>}
     </Container>

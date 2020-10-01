@@ -2,14 +2,23 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import axios from 'axios';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 // import { injectGlobal } from 'styled-components';
 import List from './components/List.jsx';
+import Scroll from './components/Scroll.jsx';
+
+const Body = styled.div`
+  background-color: rgb(255, 255, 255);
+  font-family: 'Montserrat', sans-serif;
+`;
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      ref: 1,
+    };
+    this.handleScroll = this.handleScroll.bind(this);
   }
 
   componentDidMount() {
@@ -26,6 +35,16 @@ class App extends React.Component {
       .catch(console.log);
   }
 
+  handleScroll(ref) {
+    ref.current.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+    this.setState({
+      ref: ref,
+    });
+  }
+
   render() {
     const { listings } = this.state;
     const render = listings
@@ -40,10 +59,10 @@ class App extends React.Component {
       //   font-weight: normal;
       // }
       // `
-      <div>
-        <h1>More Places to Stay</h1>
+      <Body>
+        <Scroll handleScroll={this.handleScroll} />
         {render}
-      </div>
+      </Body>
     );
   }
 }
