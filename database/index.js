@@ -13,6 +13,7 @@ const listingSchema = mongoose.Schema({
     {
       superhost: Boolean,
       heart: Boolean,
+      rating: String,
       reviews: String,
       listing: String,
       title: String,
