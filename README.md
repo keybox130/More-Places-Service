@@ -4,10 +4,9 @@
 
 ## Related Projects
 
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
+  - https://github.com/keybox130/Gallery-Service
+  - https://github.com/keybox130/Booking-Service
+  - https://github.com/keybox130/Reviews-Service
 
 ## Table of Contents
 

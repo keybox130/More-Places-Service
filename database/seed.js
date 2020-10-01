@@ -64,7 +64,7 @@ const listing = () => {
     'Studio ',
     'Entire guest suite ',
   ];
-  const numBeds = `${random(0, 10, true)} beds`;
+  const numBeds = `• ${random(1, 10, true)} beds`;
   return listings[random(0, 6, true)] + numBeds;
 };
 
@@ -125,12 +125,12 @@ const randTitle = () => {
   const index1 = random(0, adjectives.length, true);
   const index2 = random(0, nouns.length, true);
   const index3 = random(0, addOns.length, true);
-  return `${titles[index]} • ${adjectives[index1]}${nouns[index2]}${addOns[index3]}`;
+  return `${titles[index]} ${adjectives[index1]}${nouns[index2]}${addOns[index3]}`;
 };
 
 const randPrice = () => {
   const num = random(300, 2000, true);
-  return `$${num} / night`;
+  return `${num}`;
 };
 
 const images = [
@@ -165,6 +165,9 @@ const images = [
 ];
 // star image:
 // https://keybox-houses.s3-us-west-1.amazonaws.com/star.png
+// https://keybox-houses.s3-us-west-1.amazonaws.com/favorite.svg
+// heart image:
+// https://keybox-houses.s3-us-west-1.amazonaws.com/favorite_border-24px.svg
 
 const imageUrl = () => {
   const index = random(0, images.length, true);
@@ -175,6 +178,7 @@ const generatePhotos = () => {
   const photos = [];
   for (let j = 0; j < 12; j += 1) {
     const photo = {};
+    photo.id = j;
     photo.superhost = newBoolean();
     console.log();
     photo.heart = newBoolean();
