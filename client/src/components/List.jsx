@@ -5,7 +5,7 @@ import ListEntry from './ListEntry.jsx';
 
 const Container = styled.div`
   display: flex;
-  overflow: hidden;
+  overflow: auto;
   flex-flow: row wrap;
   align-items: center;
   justify-content: center;
@@ -21,7 +21,7 @@ const List = ({ listings, refs }) => (
   <Container>
     {listings.photos
       ? listings.photos.map((photo, index) => (
-        <ListEntry key={photo._id} photo={photo} ref={refs[index]} />
+        <ListEntry key={photo._id} photo={photo} refs={refs} index={index} />
       ))
       : <h1>Loading...</h1>}
   </Container>

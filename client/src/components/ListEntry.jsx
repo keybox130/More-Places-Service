@@ -143,7 +143,7 @@ class ListEntry extends React.Component {
   }
 
   render() {
-    const { photo, ref, handleClick } = this.props;
+    const { photo, refs, index } = this.props;
     const { saved } = this.state;
     const heart = saved ? (
       <FilledHeart type="button" onClick={this.heartClick}>
@@ -159,7 +159,7 @@ class ListEntry extends React.Component {
       : <small>{photo.reviews}</small>;
 
     return (
-      <FlexColumn ref={ref}>
+      <FlexColumn ref={refs[index]}>
         <ImgFlexRow>
           <House alt="House" src={photo.image} />
           {photo.superhost

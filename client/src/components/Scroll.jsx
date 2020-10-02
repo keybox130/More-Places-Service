@@ -69,7 +69,7 @@ class Scroll extends React.Component {
       page: newPage,
     });
     if (Number(index) - 4 >= 1) {
-      this.props.handleScroll(index - 4);
+      this.props.handleScroll(index - 4, page);
     }
   }
 
@@ -86,7 +86,7 @@ class Scroll extends React.Component {
       page: newPage,
     });
     if (Number(index) + 4 <= 9) {
-      this.props.handleScroll(index + 4);
+      this.props.handleScroll(index + 4, page);
     }
   }
 

@@ -19,6 +19,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      page: 1,
       refs: {
         1: React.createRef(),
         2: React.createRef(),
@@ -51,11 +52,14 @@ class App extends React.Component {
       .catch(console.log);
   }
 
-  handleScroll(index) {
+  handleScroll(index, page) {
     const { refs } = this.state;
     refs[index].current.scrollIntoView({
       behavior: 'smooth',
       block: 'start',
+    });
+    this.setState({
+      page: page,
     });
   }
 
