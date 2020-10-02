@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 /* eslint-disable import/extensions */
 import React from 'react';
 import ReactDom from 'react-dom';
@@ -10,13 +11,29 @@ import Scroll from './components/Scroll.jsx';
 const Body = styled.div`
   background-color: rgb(255, 255, 255);
   font-family: 'Montserrat', sans-serif;
+  display: flex;
+  flex-direction: column;
 `;
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ref: 1,
+      page: 1,
+      refs: {
+        1: React.createRef(),
+        2: React.createRef(),
+        3: React.createRef(),
+        4: React.createRef(),
+        5: React.createRef(),
+        6: React.createRef(),
+        7: React.createRef(),
+        8: React.createRef(),
+        9: React.createRef(),
+        10: React.createRef(),
+        11: React.createRef(),
+        12: React.createRef(),
+      },
     };
     this.handleScroll = this.handleScroll.bind(this);
   }
@@ -35,30 +52,23 @@ class App extends React.Component {
       .catch(console.log);
   }
 
-  handleScroll(ref) {
-    ref.current.scrollIntoView({
+  handleScroll(index, page) {
+    const { refs } = this.state;
+    refs[index].current.scrollIntoView({
       behavior: 'smooth',
       block: 'start',
     });
     this.setState({
-      ref: ref,
+      page: page,
     });
   }
 
   render() {
-    const { listings } = this.state;
+    const { listings, refs } = this.state;
     const render = listings
-      ? <List listings={listings[0]} />
+      ? <List listings={listings[0]} refs={refs} />
       : <h1>Loading...</h1>;
     return (
-      // injectGlobal`
-      // @import url('
-      //   https://fonts.googleapis.com/css2?family=Nunito:wght@300;600&display=swap');
-      // body {
-      //   font-family: 'Nunito', sans-serif;
-      //   font-weight: normal;
-      // }
-      // `
       <Body>
         <Scroll handleScroll={this.handleScroll} />
         {render}

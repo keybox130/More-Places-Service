@@ -25,15 +25,14 @@ const randRating = () => {
   const chance = random(0, 100, true);
   if (chance > 20) { // arbitrarily set chance of reviews below 4 to 20%
     const num = random(4, 5, false);
-    console.log(num);
-    return `${num}`;
+    return ` ${num}`;
   }
   const num = random(1, 3, false);
-  return `${num}`;
+  return ` ${num}`;
 };
 
 const randReviews = () => {
-  const num = random(0, 1500, true);
+  const num = random(0, 500, true);
   if (num === 0) {
     return 0;
   }
@@ -43,15 +42,22 @@ const randReviews = () => {
   return ` (${num})`;
 };
 
+let reviews = randReviews();
+const checkReviews = () => {
+  reviews = typeof reviews === 'string'
+    ? reviews
+    : null;
+  return reviews;
+};
+
 const generateReview = () => {
-  const reviews = randReviews();
   if (reviews === 0) {
     return 'New'; // include "No reviews yet" case? -> no star either
   }
   if (reviews === 1) {
     return '1 review';
   }
-  return randRating() + reviews;
+  return randRating();
 };
 
 const listing = () => {
@@ -130,7 +136,7 @@ const randTitle = () => {
 
 const randPrice = () => {
   const num = random(300, 2000, true);
-  return `${num}`;
+  return `${num} `;
 };
 
 const images = [
@@ -180,9 +186,9 @@ const generatePhotos = () => {
     const photo = {};
     photo.id = j;
     photo.superhost = newBoolean();
-    console.log();
     photo.heart = newBoolean();
-    photo.reviews = generateReview();
+    photo.rating = generateReview();
+    photo.reviews = checkReviews();
     photo.listing = listing();
     photo.title = randTitle();
     photo.price = randPrice();

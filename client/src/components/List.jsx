@@ -11,21 +11,20 @@ const Container = styled.div`
   justify-content: center;
   scroll-snap-type: x mandatory;
   width: 1280px;
-  margin: 40px auto;
+  margin: 30px auto;
   min-height: 300px;
+  max-height: 300px;
   position: relative;
 `;
 
-const List = ({ listings }) => {
-  return (
-    <Container>
-      {listings.photos
-        ? listings.photos.map((photo) => (
-          <ListEntry key={photo._id} photo={photo} ref={photo.id} />
-        ))
-        : <h1>Loading...</h1>}
-    </Container>
-  );
-};
+const List = ({ listings, refs }) => (
+  <Container>
+    {listings.photos
+      ? listings.photos.map((photo, index) => (
+        <ListEntry key={photo._id} photo={photo} refs={refs} index={index} />
+      ))
+      : <h1>Loading...</h1>}
+  </Container>
+);
 
 export default List;
