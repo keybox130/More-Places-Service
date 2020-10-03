@@ -16,11 +16,11 @@ const Container = styled.div`
   position: relative;
 `;
 
-const List = ({ listings, refs }) => (
+const List = ({ listings, refs, handleModal }) => (
   <Container>
     {listings.photos
       ? listings.photos.map((photo, index) => (
-        <ListEntry key={photo._id} photo={photo} refs={refs} index={index} />
+        <ListEntry key={photo._id} photo={photo} refs={refs} index={index} handleModal={handleModal} />
       ))
       : <h1>Loading...</h1>}
   </Container>

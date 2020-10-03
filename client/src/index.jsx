@@ -7,13 +7,21 @@ import styled from 'styled-components';
 // import { injectGlobal } from 'styled-components';
 import List from './components/List.jsx';
 
+const All = styled.div`
+  font-family: 'Montserrat', sans-serif;
+  padding: 40px;
+  display: block;
+  margin: auto;
+  justify-content: center;
+`;
+
 const Body = styled.div`
   background-color: rgb(255, 255, 255);
-  font-family: 'Montserrat', sans-serif;
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
   max-width: 1110px;
+  margin: auto;
   justify-content: center;
 `;
 
@@ -26,8 +34,7 @@ const FlexRow = styled.div`
   flex-direction: row;
   width: 1100px;
   min-height: 40px;
-  margin-bottom: 1px;
-  margin-right: 25px;
+  margin: auto
 `;
 
 const Header = styled.h1`
@@ -79,10 +86,12 @@ class App extends React.Component {
         10: React.createRef(),
         11: React.createRef(),
         // modal: false,
+        favorites: [{ 'Weekend Getaway': [] }, { 'Tahoe Trips': [] }],
       },
     };
     this.onLeft = this.onLeft.bind(this);
     this.onRight = this.onRight.bind(this);
+    this.handleModal = this.handleModal.bind(this);
   }
 
   componentDidMount() {
@@ -95,7 +104,7 @@ class App extends React.Component {
     let newPage;
     if (Number(page) === 1) {
       newPage = 3;
-      refs[8].current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      refs[11].current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else if (Number(page) === 3) {
       newPage = 2;
       refs[4].current.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -114,7 +123,7 @@ class App extends React.Component {
     let newPage;
     if (Number(page) === 3) {
       newPage = 1;
-      refs[1].current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      refs[0].current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else if (Number(page) === 2) {
       newPage = 3;
       refs[11].current.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -126,6 +135,11 @@ class App extends React.Component {
       page: newPage,
     });
   }
+
+  handleModal(modal) {
+
+  }
+  // when you click heart, IF you add to list, its red -> otherwise, empty
 
   getAll(roomId) {
     axios(`/api/roomId/${roomId}`)
@@ -140,10 +154,10 @@ class App extends React.Component {
   render() {
     const { page, listings, refs } = this.state;
     const render = listings
-      ? <List listings={listings[0]} refs={refs} />
+      ? <List listings={listings[0]} refs={refs} handleModal={this.handleModal} />
       : <h1>Loading...</h1>;
     return (
-      <div>
+      <All>
         <FlexRow>
           <div>
             <Header>More Places to Stay</Header>
@@ -165,7 +179,7 @@ class App extends React.Component {
         <Body>
           {render}
         </Body>
-      </div>
+      </All>
     );
   }
 }

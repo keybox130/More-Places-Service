@@ -32,32 +32,23 @@ const randRating = () => {
 };
 
 const randReviews = () => {
-  const num = random(0, 500, true);
-  if (num === 0) {
-    return 0;
-  }
-  if (num === 1) {
-    return 1;
-  }
+  const num = random(2, 500, true);
+  // if (num === 0) {
+  //   return '0';
+  // }
+  // if (num === 1) {
+  //   return '1';
+  // }
   return ` (${num})`;
 };
 
-let reviews = randReviews();
-const checkReviews = () => {
-  reviews = typeof reviews === 'string'
-    ? reviews
-    : null;
-  return reviews;
-};
-
 const generateReview = () => {
-  if (reviews === 0) {
-    return 'New'; // include "No reviews yet" case? -> no star either
+  const reviews = randReviews();
+  if (reviews === null) {
+    const edge = ['No reviews yet', 'New', '1 review'];
+    return edge[random(0, 2, true)];
   }
-  if (reviews === 1) {
-    return '1 review';
-  }
-  return randRating();
+  return randRating() + reviews;
 };
 
 const listing = () => {
@@ -187,8 +178,8 @@ const generatePhotos = () => {
     photo.id = j;
     photo.superhost = newBoolean();
     photo.heart = newBoolean();
-    photo.rating = generateReview();
-    photo.reviews = checkReviews();
+    photo.rating = randRating();
+    photo.reviews = randReviews();
     photo.listing = listing();
     photo.title = randTitle();
     photo.price = randPrice();

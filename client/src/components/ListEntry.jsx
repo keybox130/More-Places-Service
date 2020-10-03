@@ -116,15 +116,16 @@ const Reviews = styled.div`
   }
 `;
 
-// const Modal = styled.div`
-
-// `;
+const Modal = styled.div`
+  z-index: 2;
+`;
 
 class ListEntry extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       saved: false,
+      modal: false,
     };
     this.heartClick = this.heartClick.bind(this);
     this.shortenText = this.shortenText.bind(this);
@@ -132,11 +133,13 @@ class ListEntry extends React.Component {
 
   heartClick(e) {
     e.preventDefault();
-    const { saved } = this.state;
+    const { saved, modal } = this.state;
+    const { handleModal } = this.props;
     this.setState({
       saved: !saved,
+      modal: true,
     });
-    // trigger popup modal z-index: 2
+    handleModal(modal);
   }
 
   shortenText(text) {
@@ -151,7 +154,7 @@ class ListEntry extends React.Component {
 
   render() {
     const { photo, refs, index } = this.props;
-    const { saved } = this.state;
+    const { saved, modal } = this.state;
     const heart = saved ? (
       <FilledHeart type="button" onClick={this.heartClick}>
         <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false"><path d="m16 28c7-4.733 14-10 14-17 0-1.792-.683-3.583-2.05-4.95-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05l-2.051 2.051-2.05-2.051c-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05-1.367 1.367-2.051 3.158-2.051 4.95 0 7 7 12.267 14 17z" /></svg>
@@ -161,9 +164,9 @@ class ListEntry extends React.Component {
         <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false"><path d="m16 28c7-4.733 14-10 14-17 0-1.792-.683-3.583-2.05-4.95-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05l-2.051 2.051-2.05-2.051c-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05-1.367 1.367-2.051 3.158-2.051 4.95 0 7 7 12.267 14 17z" /></svg>
       </EmptyHeart>
     );
-    const reviews = photo.reviews === null
-      ? <small />
-      : <small>{photo.reviews}</small>;
+    // const reviews = photo.reviews === null
+    //   ? <small />
+    //   : <small>{photo.reviews}</small>;
 
     return (
       <FlexColumn ref={refs[index]}>
@@ -176,7 +179,7 @@ class ListEntry extends React.Component {
         </ImgFlexRow>
         <Reviews>
           <img className="star" alt="star" src="https://keybox-houses.s3-us-west-1.amazonaws.com/star.png" />
-          {photo.rating} {reviews}
+          {photo.rating} <small>{photo.reviews}</small>
         </Reviews>
         <FlexRow>{photo.listing}</FlexRow>
         <FlexRow>{this.shortenText(photo.title)}</FlexRow>
