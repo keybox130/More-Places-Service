@@ -10,6 +10,8 @@ const FlexColumn = styled.div`
   min-width: 260px;
   min-height: 300px;
   margin: 0px 10px 0px 10px;
+  scroll-snap-type: x mandatory;
+
 `;
 
 const ImgFlexRow = styled.div`
@@ -114,6 +116,10 @@ const Reviews = styled.div`
   }
 `;
 
+// const Modal = styled.div`
+
+// `;
+
 class ListEntry extends React.Component {
   constructor(props) {
     super(props);
@@ -130,6 +136,7 @@ class ListEntry extends React.Component {
     this.setState({
       saved: !saved,
     });
+    // trigger popup modal z-index: 2
   }
 
   shortenText(text) {
