@@ -6,13 +6,10 @@ import axios from 'axios';
 import styled from 'styled-components';
 // import { injectGlobal } from 'styled-components';
 import List from './components/List.jsx';
+import SaveModal from './components/SaveModal.jsx';
 
 const All = styled.div`
   font-family: 'Montserrat', sans-serif;
-  padding: 40px;
-  display: block;
-  margin: auto;
-  justify-content: center;
 `;
 
 const Body = styled.div`
@@ -65,6 +62,12 @@ const Button = styled.div`
   width: 32px;
   height: 32px;
   margin: 5px;
+  :hover {
+    border-color: rgba(0, 0, 0, 0.08);
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    box-shadow: transparent 0px 0px 0px 1px, transparent 0px 0px 0px 4px, rgba(0, 0, 0, 0.12) 0px 6px 16px;
+    transform: scale(1.04);
 `;
 
 class App extends React.Component {
@@ -85,13 +88,13 @@ class App extends React.Component {
         9: React.createRef(),
         10: React.createRef(),
         11: React.createRef(),
-        // modal: false,
-        favorites: [{ 'Weekend Getaway': [] }, { 'Tahoe Trips': [] }],
+        modal: false,
       },
     };
     this.onLeft = this.onLeft.bind(this);
     this.onRight = this.onRight.bind(this);
-    this.handleModal = this.handleModal.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
   componentDidMount() {
@@ -136,11 +139,6 @@ class App extends React.Component {
     });
   }
 
-  handleModal(modal) {
-
-  }
-  // when you click heart, IF you add to list, its red -> otherwise, empty
-
   getAll(roomId) {
     axios(`/api/roomId/${roomId}`)
       .then((list) => {
@@ -151,13 +149,34 @@ class App extends React.Component {
       .catch(console.log);
   }
 
+  openModal() {
+    const { modal } = this.state;
+    this.setState({
+      modal: true,
+    });
+  }
+
+  closeModal() {
+    const { modal } = this.state;
+    this.setState({
+      modal: false,
+    });
+  }
+  // when you click heart, IF you add to list, its red -> otherwise, empty
+
   render() {
-    const { page, listings, refs } = this.state;
+    const {
+      page, listings, refs, modal,
+    } = this.state;
     const render = listings
-      ? <List listings={listings[0]} refs={refs} handleModal={this.handleModal} />
+      ? <List listings={listings[0]} refs={refs} openModal={this.openModal} />
       : <h1>Loading...</h1>;
+    const modalPop = modal
+      ? <SaveModal closeModal={this.closeModal} />
+      : <div />;
     return (
       <All>
+        {modalPop}
         <FlexRow>
           <div>
             <Header>More Places to Stay</Header>

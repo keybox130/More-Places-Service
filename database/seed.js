@@ -57,8 +57,7 @@ const listing = () => {
     'Entire villa ',
     'Entire apartment ',
     'Entire guesthouse ',
-    'Private Room ',
-    'Studio ',
+    'Private Rooms ',
     'Entire guest suite ',
   ];
   const numBeds = `• ${random(1, 10, true)} beds`;

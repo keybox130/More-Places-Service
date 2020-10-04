@@ -6,7 +6,6 @@ import ListEntry from './ListEntry.jsx';
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  flex:
   overflow-x: auto;
   white-space: nowrap;
   justify-content: center;
@@ -16,11 +15,11 @@ const Container = styled.div`
   position: relative;
 `;
 
-const List = ({ listings, refs, handleModal }) => (
+const List = ({ listings, refs, openModal }) => (
   <Container>
     {listings.photos
       ? listings.photos.map((photo, index) => (
-        <ListEntry key={photo._id} photo={photo} refs={refs} index={index} handleModal={handleModal} />
+        <ListEntry key={photo._id} photo={photo} refs={refs} index={index} modal={openModal} />
       ))
       : <h1>Loading...</h1>}
   </Container>
