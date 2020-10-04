@@ -5,23 +5,21 @@ import ListEntry from './ListEntry.jsx';
 
 const Container = styled.div`
   display: flex;
-  overflow: auto;
-  flex-flow: row wrap;
-  align-items: center;
+  flex-direction: row;
+  overflow-x: auto;
+  white-space: nowrap;
   justify-content: center;
-  scroll-snap-type: x mandatory;
-  width: 1280px;
-  margin: 30px auto;
+  margin: auto;
   min-height: 300px;
   max-height: 300px;
   position: relative;
 `;
 
-const List = ({ listings, refs }) => (
+const List = ({ listings, refs, openModal }) => (
   <Container>
     {listings.photos
       ? listings.photos.map((photo, index) => (
-        <ListEntry key={photo._id} photo={photo} refs={refs} index={index} />
+        <ListEntry key={photo._id} photo={photo} refs={refs} index={index} modal={openModal} />
       ))
       : <h1>Loading...</h1>}
   </Container>

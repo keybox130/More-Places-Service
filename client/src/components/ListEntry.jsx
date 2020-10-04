@@ -10,6 +10,8 @@ const FlexColumn = styled.div`
   min-width: 260px;
   min-height: 300px;
   margin: 0px 10px 0px 10px;
+  scroll-snap-type: x mandatory;
+
 `;
 
 const ImgFlexRow = styled.div`
@@ -121,25 +123,20 @@ class ListEntry extends React.Component {
       saved: false,
     };
     this.heartClick = this.heartClick.bind(this);
-    this.shortenText = this.shortenText.bind(this);
   }
 
   heartClick(e) {
     e.preventDefault();
     const { saved } = this.state;
+    const { modal } = this.props;
+    // if heart is saved, change to fill
+    // else pop up modal
+    if (!saved) {
+      modal();
+    }
     this.setState({
       saved: !saved,
     });
-  }
-
-  shortenText(text) {
-    let title;
-    if (text.length > 30) {
-      title = `${text.slice(0, 30)}...`;
-    } else {
-      title = text;
-    }
-    return title;
   }
 
   render() {
@@ -154,9 +151,9 @@ class ListEntry extends React.Component {
         <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false"><path d="m16 28c7-4.733 14-10 14-17 0-1.792-.683-3.583-2.05-4.95-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05l-2.051 2.051-2.05-2.051c-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05-1.367 1.367-2.051 3.158-2.051 4.95 0 7 7 12.267 14 17z" /></svg>
       </EmptyHeart>
     );
-    const reviews = photo.reviews === null
-      ? <small />
-      : <small>{photo.reviews}</small>;
+    // const reviews = photo.reviews === null
+    //   ? <small />
+    //   : <small>{photo.reviews}</small>;
 
     return (
       <FlexColumn ref={refs[index]}>
@@ -169,10 +166,14 @@ class ListEntry extends React.Component {
         </ImgFlexRow>
         <Reviews>
           <img className="star" alt="star" src="https://keybox-houses.s3-us-west-1.amazonaws.com/star.png" />
-          {photo.rating} {reviews}
+          {photo.rating} <small>{photo.reviews}</small>
         </Reviews>
         <FlexRow>{photo.listing}</FlexRow>
-        <FlexRow>{this.shortenText(photo.title)}</FlexRow>
+        <FlexRow>
+          {photo.title.length > 30
+            ? `${photo.title.slice(0, 30)}...`
+            : photo.title}
+        </FlexRow>
         <FlexRow className="price">
           <strong>
             $
