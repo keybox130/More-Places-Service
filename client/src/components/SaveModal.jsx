@@ -194,6 +194,8 @@ class SaveModal extends React.Component {
     this.state = {
       favorites: [{ 'Weekend Getaway': [] }, { 'Tahoe Trips': [] }],
     };
+    this.handleClose = this.handleClose.bind(this);
+    this.handleSave = this.handleSave.bind(this);
   }
 
   handleClose() {
@@ -211,7 +213,7 @@ class SaveModal extends React.Component {
       <Page>
         <Modal>
           <Header>
-            <Button type="button" onClick={() => this.handleClose()}>
+            <Button type="button" onClick={this.handleClose}>
               <Close viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false">
                 <path d="m6 6 20 20" />
                 <path d="m26 6-20 20" />
