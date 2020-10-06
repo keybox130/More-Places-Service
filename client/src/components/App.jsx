@@ -6,6 +6,7 @@ import styled from 'styled-components';
 // import { injectGlobal } from 'styled-components';
 import List from './List.jsx';
 import SaveModal from './SaveModal.jsx';
+import CreateModal from './CreateModal.jsx';
 
 const All = styled.div`
   font-family: 'Montserrat', sans-serif;
@@ -87,17 +88,24 @@ class App extends React.Component {
         9: React.createRef(),
         10: React.createRef(),
         11: React.createRef(),
-        modal: false,
       },
+      modal: false,
+      favorites: [],
+      createModal: false,
+      imageUrl: '',
     };
     this.onLeft = this.onLeft.bind(this);
     this.onRight = this.onRight.bind(this);
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
+    this.handleModal = this.handleModal.bind(this);
+    this.createModal = this.createModal.bind(this);
+    this.updateList = this.updateList.bind(this);
+    this.createAList = this.createAList.bind(this);
   }
 
   componentDidMount() {
-    this.getAll(11); // set arbitrary room Id for now
+    this.get(11); // set arbitrary room Id for now
+    // this.getAll();
+    this.getFavorites();
   }
 
   onLeft(e) {
@@ -138,8 +146,8 @@ class App extends React.Component {
     });
   }
 
-  getAll(roomId) {
-    axios(`/api/roomId/${roomId}`)
+  getAll() {
+    axios('/stays/')
       .then((list) => {
         this.setState({
           listings: list.data,
@@ -148,30 +156,77 @@ class App extends React.Component {
       .catch(console.log);
   }
 
-  openModal() {
+  get(roomId) {
+    axios(`/stays/${roomId}`)
+      .then((list) => {
+        this.setState({
+          listings: list.data,
+        });
+      })
+      .catch(console.log);
+  }
+
+  getFavorites() {
+    axios('/favorites/')
+      .then((list) => {
+        this.setState({
+          favorites: list.data,
+        });
+      })
+      .catch(console.log);
+  }
+
+  // toggles Add to a list modal
+  handleModal(imageUrl) {
     const { modal } = this.state;
     this.setState({
-      modal: true,
+      modal: !modal,
+      imageUrl: imageUrl,
     });
   }
 
-  closeModal() {
-    const { modal } = this.state;
+  updateList(id, count) {
+    axios(`/favorites/${id}/${count}`, {
+      method: 'patch',
+    })
+      .then(() => (
+        this.getFavorites()
+      ))
+      .catch(console.log);
+  }
+
+  // toggles Create a list modal
+  createModal() {
+    const { modal, createModal } = this.state;
     this.setState({
-      modal: false,
+      modal: !modal,
+      createModal: !createModal,
     });
   }
-  // when you click heart, IF you add to list, its red -> otherwise, empty
+
+  // handle creating a new list
+  createAList(name) {
+    axios.post('/favorites/', {
+      name: [name],
+      count: Math.floor(Math.random() * 50),
+    })
+      .then(() => (
+        this.getFavorites()
+      ))
+      .catch(console.log);
+  }
 
   render() {
     const {
-      page, listings, refs, modal,
+      page, listings, refs, modal, favorites, createModal,
     } = this.state;
     const render = listings
-      ? <List listings={listings[0]} refs={refs} openModal={this.openModal} />
+      ? <List listings={listings[0]} refs={refs} openModal={this.handleModal} />
       : <h1>Loading...</h1>;
-    const modalPop = modal
-      ? <SaveModal closeModal={this.closeModal} />
+    const modalPop = modal && createModal
+      ? <CreateModal handleModal={this.handleModal} />
+      : modal
+      ? <SaveModal handleModal={this.handleModal} favorites={favorites} createModal={this.createModal} updateList={this.updateList} />
       : <div />;
     return (
       <All>

@@ -4,11 +4,23 @@ const app = express();
 const port = 3000;
 const path = require('path');
 // const bodyParser = require('body-parser');
-const { Listing } = require('../database/index.js');
+const { Listing, Favorites } = require('../database/index.js');
 
 // app.use('/', bodyParser.json());
 
-app.get('/api/roomId/:roomId', (req, res) => {
+// get All
+app.get('/stays/', (req, res) => {
+  Listing.find({}).exec((err, data) => {
+    if (err) {
+      res.status(400).send(err);
+    } else {
+      console.log(data);
+      res.status(200).send(data);
+    }
+  });
+});
+
+app.get('/stays/:roomId', (req, res) => {
   const { roomId } = req.params;
   Listing.find({ id: roomId }).exec((err, data) => {
     if (err) {
@@ -16,6 +28,30 @@ app.get('/api/roomId/:roomId', (req, res) => {
     } else {
       console.log(data);
       res.status(200).send(data);
+    }
+  });
+});
+
+// get All for list of favorites
+app.get('/favorites/', (req, res) => {
+  Favorites.find({}).exec((err, data) => {
+    if (err) {
+      res.status(400).send(err);
+    } else {
+      console.log(data);
+      res.status(200).send(data);
+    }
+  });
+});
+
+app.patch('/favorites/:id/:count', (req, res) => {
+  const { id, count } = req.params;
+  Favorites.findOneAndUpdate({ id }, { count }).exec((err, data) => {
+    if (err) {
+      res.status(400).send(err);
+    } else {
+      console.log('Successfully updated count!', data);
+      res.status(200).send();
     }
   });
 });

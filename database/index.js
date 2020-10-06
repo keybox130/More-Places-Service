@@ -25,7 +25,17 @@ const listingSchema = mongoose.Schema({
 
 const Listing = mongoose.model('Listing', listingSchema);
 
+const favoritesSchema = mongoose.Schema({
+  id: Number,
+  name: String,
+  count: Number,
+  img: String,
+});
+
+const Favorites = mongoose.model('Favorites', favoritesSchema);
+
 module.exports = {
   Listing,
+  Favorites,
   db,
 };

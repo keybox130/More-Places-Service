@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import Favorites from './Favorites.jsx';
 
 const Page = styled.div`
   padding: 40px;
@@ -14,17 +13,6 @@ const Page = styled.div`
   width: 100%;
   height: 100%;
   background: rgba(34, 34, 34, .6);
-
-  animation-duration: 1s;
-  animation-name: x;
-  @keyframes x {
-    from {
-      opacity: 0%;
-    }
-    to {
-      opacity: 100%;
-    }
-  }
 `;
 
 const Modal = styled.div`
@@ -41,21 +29,6 @@ const Modal = styled.div`
   box-shadow: rgba(0, 0, 0, 0.28) 0px 8px 28px;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
-
-  animation-name: slidein;
-  justify-content: center;
-  @keyframes slidein {
-    from {
-      margin-top: 100%;
-      height: 100%;
-      opacity: 25%;
-    }
-    to {
-      margin-top: 0%;
-      height: 100%;
-      opacity: 100%;
-    }
-  }
 `;
 
 const Header = styled.div`
@@ -121,10 +94,25 @@ const HeaderTitle = styled.div`
   margin-right: 16px;
 `;
 
-const List = styled.div`
-  padding: 20px 16px;
-  overflow-y: auto;
+const Entry = styled.div`
+  position: relative;
+  cursor: text;
+  display: flex;
+  height: 56px;
+  width: 100%;
+  margin: 0px;
+  border: none;
+  color: rgb(34, 34, 34);
+  border-radius: 8px;
+  box-shadow: rgb(176, 176, 176) 0px 0px 0px 1px inset;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
 `;
+
+const Input = styled.div`
+  color: rgb(113, 113, 113)
+  `;
 
 const Create = styled.footer`
   -webkit-box-pack: justify;
@@ -140,32 +128,38 @@ const Create = styled.footer`
 `;
 
 const CreateList = styled.button`
-  cursor: pointer;
+  cursor: not-allowed;
+  opacity: 1;
+  border: none;
+  background: rgb(221, 221, 221);
   display: inline-block;
   margin: 0px;
   position: relative;
   text-align: center;
+  text-decoration: none;
   touch-action: manipulation;
   font-size: 16px;
   line-height: 20px;
-  font-weight: 400;
+  font-weight: 600;
   border-radius: 8px;
   outline: none;
-  padding: 10px;
+  padding: 14px 24px;
   transition: box-shadow 0.2s ease 0s, -ms-transform 0.1s ease 0s, -webkit-transform 0.1s ease 0s, transform 0.1s ease 0s;
   border: none;
-  background: transparent;
-  color: rgb(34, 34, 34);
-  text-decoration: underline;
+  background: rgb(34, 34, 34);
+  color: rgb(255, 255, 255);
   width: 100%;
 `;
 
-class SaveModal extends React.Component {
+class CreateModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      name: '',
     };
     this.handleClose = this.handleClose.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleClose() {
@@ -173,8 +167,23 @@ class SaveModal extends React.Component {
     handleModal();
   }
 
+  handleChange(e) {
+    const { value } = e.target;
+    this.setState({
+      name: value,
+    });
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    const { createAList } = this.props;
+    const { name } = this.state;
+    createAList(name);
+  }
+
   render() {
-    const { favorites, createModal, updateList } = this.props;
+    const { name } = this.state;
+    const { createAList } = this.props;
     return (
       <Page>
         <Modal>
@@ -186,19 +195,25 @@ class SaveModal extends React.Component {
               </Close>
             </Button>
             <Title>
-              <HeaderTitle>Save to a List</HeaderTitle>
+              <HeaderTitle>Name this list</HeaderTitle>
             </Title>
           </Header>
           <div>
-            <List>
-              {favorites.map((favorite) => (
-                <Favorites key={favorite.id} id={favorite.id} name={favorite.name} count={favorite.count} image={favorite.img} updateList={updateList} handleClose={this.handleClose} />
-              ))}
-            </List>
+            <Entry>
+              <form onSubmit={this.handleSubmit}>
+                <label>
+                  <Input>Name</Input>
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={this.handleChange} />
+                </label>
+              </form>
+            </Entry>
           </div>
           <div>
             <Create>
-              <CreateList onClick={createModal}>Create a List</CreateList>
+              <CreateList onClick={createAList}>Create</CreateList>
             </Create>
           </div>
         </Modal>
@@ -207,4 +222,4 @@ class SaveModal extends React.Component {
   }
 }
 
-export default SaveModal;
+export default CreateModal;
