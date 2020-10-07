@@ -1,5 +1,7 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import styled from 'styled-components';
+// eslint-disable-next-line import/extensions
 import Favorites from './Favorites.jsx';
 
 const Page = styled.div`
@@ -41,35 +43,19 @@ const Modal = styled.div`
   box-shadow: rgba(0, 0, 0, 0.28) 0px 8px 28px;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
-
+  animation-duration: 1s;
   animation-name: slidein;
   justify-content: center;
   @keyframes slidein {
     from {
       margin-top: 100%;
-      height: 100%;
-      opacity: 25%;
+      opacity: 0%;
     }
     to {
       margin-top: 0%;
-      height: 100%;
       opacity: 100%;
     }
   }
-  // &.enter {
-  //    animation-name: slideIn;
-  //    animation-duration: ms;
-  //    animation-fill-mode: both;
-  //    /* should start animation after dim/blur animation completes */
-  //    animation-delay: ms;
-  //    animation-timing-function: cubic-bezier(0.8, 0.2, 0.2, 0.8);
-  //  }
-  //  &.exit {
-  //    animation-name: slideOut;
-  //    animation-duration: ms;
-  //    animation-fill-mode: both;
-  //    animation-timing-function: cubic-bezier(0.8, 0.2, 0.2, 0.8);
-  //  }
 `;
 
 const Header = styled.div`
@@ -147,10 +133,14 @@ const Create = styled.footer`
   flex: 0 0 auto;
   border-top: 1px solid rgb(235, 235, 235);
   padding: 16px 24px;
+  margin: 24px;
   align-items: center;
   justify-content: space-between;
   font-size: 16px;
   line-height: 20px;
+  :hover {
+    background: rgb(247, 247, 247);
+  }
 `;
 
 const CreateList = styled.button`
@@ -174,7 +164,9 @@ const CreateList = styled.button`
   width: 100%;
 `;
 
-const SaveModal = ({ favorites, createModal, updateList, handleClose }) => (
+const SaveModal = ({
+  favorites, createModal, updateList, handleClose,
+}) => (
   <Page>
     <Modal>
       <Header>

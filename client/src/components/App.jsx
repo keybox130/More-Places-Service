@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable import/extensions */
 import React from 'react';
@@ -10,16 +11,20 @@ import CreateModal from './CreateModal.jsx';
 
 const All = styled.div`
   font-family: 'Montserrat', sans-serif;
+  background-color: rgb(247, 247, 247);
+  padding-left: 40px;
+  padding-right: 40px;
 `;
 
 const Body = styled.div`
-  background-color: rgb(255, 255, 255);
+  // background-color: rgb(255, 255, 255);
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
   max-width: 1110px;
   margin: auto;
   justify-content: center;
+  align-items: stretch;
 `;
 
 const FlexRow = styled.div`
@@ -29,13 +34,14 @@ const FlexRow = styled.div`
   position: relative;
   overflow: auto;
   flex-direction: row;
-  width: 1100px;
+  max-width: 1110px;
   min-height: 40px;
-  margin: auto
+  margin: auto;
 `;
 
 const Header = styled.h1`
   font-size: 23px;
+  width: 100%;
 `;
 
 const FlexButtons = styled.div`
@@ -43,12 +49,12 @@ const FlexButtons = styled.div`
   flex-direction: row;
   align-items: center;
   margin-right: 40px;
+  width: 100%;
 `;
 
 const Page = styled.h2`
   font-weight: 400;
   font-size: 13px;
-  margin-right: 10px;
 `;
 
 const Button = styled.div`
@@ -157,16 +163,6 @@ class App extends React.Component {
       .catch(console.log);
   }
 
-  get(roomId) {
-    axios(`/stays/${roomId}`)
-      .then((list) => {
-        this.setState({
-          listings: list.data,
-        });
-      })
-      .catch(console.log);
-  }
-
   getFavorites() {
     axios('/favorites/')
       .then((list) => {
@@ -177,12 +173,22 @@ class App extends React.Component {
       .catch(console.log);
   }
 
+  get(roomId) {
+    axios(`/stays/${roomId}`)
+      .then((list) => {
+        this.setState({
+          listings: list.data,
+        });
+      })
+      .catch(console.log);
+  }
+
   // toggles Add to a list modal
   handleModal(imageUrl) {
     const { modal } = this.state;
     this.setState({
       modal: !modal,
-      imageUrl: imageUrl,
+      imageUrl,
     });
   }
 
@@ -203,20 +209,21 @@ class App extends React.Component {
 
   // toggles Create a list modal
   createModal() {
-    const { modal, createModal } = this.state;
+    const { createModal } = this.state;
     this.setState({
       createModal: !createModal,
     });
   }
 
   // handle creating a new list
-  createAList(name, image) {
+  createAList(id, name) {
     const { createModal, imageUrl } = this.state;
     axios({
       method: 'post',
       url: '/favorites/',
       data: {
-        name: name,
+        id,
+        name,
         count: 1,
         img: imageUrl,
       },
@@ -238,10 +245,24 @@ class App extends React.Component {
       ? <List listings={listings[0]} refs={refs} openModal={this.handleModal} />
       : <h1>Loading...</h1>;
     const modalPop = modal && createModal
-      ? <CreateModal handleModal={this.handleModal} createAList={this.createAList} createModal={this.createModal} />
+      ? (
+        <CreateModal
+          id={favorites.length + 1}
+          handleModal={this.handleModal}
+          createAList={this.createAList}
+          createModal={this.createModal}
+        />
+      )
       : modal
-      ? <SaveModal favorites={favorites} createModal={this.createModal} updateList={this.updateList} handleClose={this.handleClose} />
-      : <div />;
+        ? (
+          <SaveModal
+            favorites={favorites}
+            createModal={this.createModal}
+            updateList={this.updateList}
+            handleClose={this.handleClose}
+          />
+        )
+        : <div />;
     return (
       <All>
         {modalPop}

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import styled from 'styled-components';
 
@@ -95,7 +96,7 @@ const HeaderTitle = styled.div`
 `;
 
 const Space = styled.div`
-  // padding: 32px;
+  padding: 32px 16px;
 `;
 
 const Entry = styled.div`
@@ -110,33 +111,31 @@ const Entry = styled.div`
   border-radius: 8px;
   box-shadow: rgb(176, 176, 176) 0px 0px 0px 1px inset;
   font-size: 16px;
-  line-height: 20px;
+  // line-height: 20px;
   font-weight: 400;
   &.hasFocus {
-    color: rgb(34, 34, 34);
+    box-shadow: rgb(34, 34, 34) 0px 0px 0px 2px inset;
     border-width: 2px;
     border-color: black;
-  }
-  &.noFocus {
-    border-width: 1px;
-    border-color:
   }
 `;
 
 const Form = styled.div`
   color: rgb(113, 113, 113);
   border; none;
+  width: 100%;
   outline: none;
   background-color: transparent;
   `;
 
 const Input = styled.input`
+  box-sizing: border-box;
   width: 100%;
+  height: 56px;
   border: none;
   outline: none;
   padding: 0px;
-  margin: 26px 12px 10px;
-  min-height: 1px;
+  margin: 0px 12px 10px;
   color: inherit;
   background-color: transparent;
   font-family: inherit;
@@ -160,7 +159,14 @@ const Create = styled.footer`
 `;
 
 const CreateList = styled.button`
-  // cursor: not-allowed;
+  &.none {
+    cursor: not-allowed;
+    color: rgb(255, 255, 255);
+    background-color: rgb(221, 221, 221);
+  }
+  &.content {
+    cursor: pointer;
+  }
   opacity: 1;
   border: none;
   background: rgb(221, 221, 221);
@@ -186,9 +192,13 @@ const CreateList = styled.button`
 class CreateModal extends React.Component {
   constructor(props) {
     super(props);
+    const { id } = this.props;
     this.state = {
+      id,
       name: '',
       focus: null,
+      content: 'none',
+      enable: 'disabled',
     };
     this.handleClose = this.handleClose.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -204,16 +214,26 @@ class CreateModal extends React.Component {
 
   handleChange(e) {
     const { value } = e.target;
-    this.setState({
-      name: value,
-    });
+    if (value.length > 0) {
+      this.setState({
+        name: value,
+        content: 'content',
+        enable: 'enabled',
+      });
+    } else {
+      this.setState({
+        name: value,
+        content: 'none',
+        enable: 'disabled',
+      });
+    }
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    const { createAList, image, createModal } = this.props;
-    const { name } = this.state;
-    createAList(name, image);
+    const { createAList, createModal } = this.props;
+    const { id, name } = this.state;
+    createAList(id, name);
     createModal();
   }
 
@@ -230,8 +250,31 @@ class CreateModal extends React.Component {
   }
 
   render() {
-    const { name, focus } = this.state;
-    const { createAList } = this.props;
+    const {
+      name, focus, content, enable,
+    } = this.state;
+    const create = enable === 'enabled'
+      ? (
+        <Create>
+          <CreateList
+            className={content}
+            onClick={this.handleSubmit}
+          >
+            Create
+          </CreateList>
+        </Create>
+      )
+      : (
+        <Create>
+          <CreateList
+            className={content}
+            onClick={this.handleSubmit}
+            disabled
+          >
+            Create
+          </CreateList>
+        </Create>
+      );
     return (
       <Page>
         <Modal>
@@ -247,27 +290,24 @@ class CreateModal extends React.Component {
             </Title>
           </Header>
           <Space>
-            <Entry>
-              <label>
-                <Form>
-                  <Input
-                    placeholder="Name"
-                    className={focus}
-                    onFocus={this.handleFocus}
-                    onBlur={this.handleBlur}
-                    type="text"
-                    value={name}
-                    onChange={this.handleChange}
-                  />
-                </Form>
-              </label>
+            <Entry
+              className={focus}
+              onFocus={this.handleFocus}
+              onBlur={this.handleBlur}
+            >
+              <Form>
+                <Input
+                  placeholder="Name"
+                  type="text"
+                  value={name}
+                  onChange={this.handleChange}
+                />
+              </Form>
             </Entry>
-            <div>50 characters maximum</div>
+            <small>50 characters maximum</small>
           </Space>
           <div>
-            <Create>
-              <CreateList onClick={this.handleSubmit}>Create</CreateList>
-            </Create>
+            {create}
           </div>
         </Modal>
       </Page>
