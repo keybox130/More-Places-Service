@@ -192,6 +192,4 @@ class ListEntry extends React.Component {
   }
 }
 
-// <svg aria-hidden="true" xmlns="https://keybox-houses.s3-us-west-1.amazonaws.com/favorite_border-24px.svg" />
-
 export default ListEntry;

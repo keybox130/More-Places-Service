@@ -82,6 +82,10 @@ class Favorites extends React.Component {
 
   addToList() {
     const { id, count } = this.state;
+    console.log('id');
+    console.log(id);
+    console.log('count');
+    console.log(count);
     const { updateList, handleClose } = this.props;
     const newCount = count + 1;
     this.setState({
@@ -98,12 +102,12 @@ class Favorites extends React.Component {
       ? <Img alt="icon" src={image} />
       : <h1>Loading...</h1>;
     return (
-      <FlexRow onClick={this.addToList}>
+      <FlexRow>
         <div>
           {imageUrl}
         </div>
         <FlexColumn>
-          <ListItem>
+          <ListItem onClick={this.addToList}>
             <div>
               <Type>Any time</Type>
             </div>

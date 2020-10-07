@@ -174,59 +174,42 @@ const CreateList = styled.button`
   width: 100%;
 `;
 
-class SaveModal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-    this.handleClose = this.handleClose.bind(this);
-  }
-
-  handleClose() {
-    const { handleModal } = this.props;
-    handleModal();
-  }
-
-  render() {
-    const { favorites, createModal, updateList } = this.props;
-    return (
-      <Page>
-        <Modal>
-          <Header>
-            <Button type="button" onClick={this.handleClose}>
-              <Close viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false">
-                <path d="m6 6 20 20" />
-                <path d="m26 6-20 20" />
-              </Close>
-            </Button>
-            <Title>
-              <HeaderTitle>Save to a List</HeaderTitle>
-            </Title>
-          </Header>
-          <div>
-            <List>
-              {favorites.map((favorite) => (
-                <Favorites
-                  key={favorite._id}
-                  id={favorite._id}
-                  name={favorite.name}
-                  count={favorite.count}
-                  image={favorite.img}
-                  updateList={updateList}
-                  handleClose={this.handleClose}
-                />
-              ))}
-            </List>
-          </div>
-          <div>
-            <Create>
-              <CreateList onClick={createModal}>Create a List</CreateList>
-            </Create>
-          </div>
-        </Modal>
-      </Page>
-    );
-  }
-}
+const SaveModal = ({ favorites, createModal, updateList, handleClose }) => (
+  <Page>
+    <Modal>
+      <Header>
+        <Button type="button" onClick={handleClose}>
+          <Close viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false">
+            <path d="m6 6 20 20" />
+            <path d="m26 6-20 20" />
+          </Close>
+        </Button>
+        <Title>
+          <HeaderTitle>Save to a List</HeaderTitle>
+        </Title>
+      </Header>
+      <div>
+        <List>
+          {favorites.map((favorite) => (
+            <Favorites
+              key={favorite.id}
+              id={favorite.id}
+              name={favorite.name}
+              count={favorite.count}
+              image={favorite.img}
+              updateList={updateList}
+              handleClose={handleClose}
+            />
+          ))}
+        </List>
+      </div>
+      <div>
+        <Create>
+          <CreateList onClick={createModal}>Create a List</CreateList>
+        </Create>
+      </div>
+    </Modal>
+  </Page>
+);
 
 export default SaveModal;

@@ -56,7 +56,7 @@ app.post('/favorites/', (req, res) => {
   });
 });
 
-app.patch('/favorites/:id/:count', (req, res) => {
+app.put('/favorites/:id/:count', (req, res) => {
   const { id, count } = req.params;
   Favorites.findOneAndUpdate({ id }, { count }).exec((err, data) => {
     if (err) {

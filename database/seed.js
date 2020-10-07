@@ -207,6 +207,7 @@ const generateLists = () => {
   const lists = [];
   for (let k = 0; k < 3; k += 1) {
     const list = {};
+    list.id = k + 1;
     list.name = randList();
     list.count = random(0, 50, true);
     list.img = imageUrl();

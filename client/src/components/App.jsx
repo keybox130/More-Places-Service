@@ -97,6 +97,7 @@ class App extends React.Component {
     this.onLeft = this.onLeft.bind(this);
     this.onRight = this.onRight.bind(this);
     this.handleModal = this.handleModal.bind(this);
+    this.handleClose = this.handleClose.bind(this);
     this.createModal = this.createModal.bind(this);
     this.updateList = this.updateList.bind(this);
     this.createAList = this.createAList.bind(this);
@@ -185,10 +186,15 @@ class App extends React.Component {
     });
   }
 
+  handleClose() {
+    const { modal } = this.state;
+    this.setState({
+      modal: !modal,
+    });
+  }
+
   updateList(id, count) {
-    axios(`/favorites/${id}/${count}`, {
-      method: 'patch',
-    })
+    axios.put(`/favorites/${id}/${count}`)
       .then(() => (
         this.getFavorites()
       ))
@@ -234,7 +240,7 @@ class App extends React.Component {
     const modalPop = modal && createModal
       ? <CreateModal handleModal={this.handleModal} createAList={this.createAList} createModal={this.createModal} />
       : modal
-      ? <SaveModal handleModal={this.handleModal} favorites={favorites} createModal={this.createModal} updateList={this.updateList} />
+      ? <SaveModal favorites={favorites} createModal={this.createModal} updateList={this.updateList} handleClose={this.handleClose} />
       : <div />;
     return (
       <All>
