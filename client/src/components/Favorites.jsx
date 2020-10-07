@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import styled from 'styled-components';
@@ -42,7 +43,6 @@ const ListItem = styled.button`
   text-decoration: none;
   height: 100%;
   width: 100%;
-  }
 `;
 
 const Type = styled.small`
@@ -71,11 +71,10 @@ const Count = (count) => (
 class Favorites extends React.Component {
   constructor(props) {
     super(props);
-    const { id, name, count } = this.props;
+    const { id, count } = this.props;
     this.state = {
-      id: id,
-      name: name,
-      count: count,
+      id,
+      count,
     };
     this.addToList = this.addToList.bind(this);
   }

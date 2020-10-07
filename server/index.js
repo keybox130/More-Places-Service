@@ -4,7 +4,10 @@ const app = express();
 const port = 3000;
 const path = require('path');
 const bodyParser = require('body-parser');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 const { Listing, Favorites } = require('../database/index.js');
+
+app.use('/api', createProxyMiddleware({ target: 'http://www.example.org', changeOrigin: true }));
 
 app.use('/', bodyParser.json());
 
@@ -71,5 +74,5 @@ app.put('/favorites/:id/:count', (req, res) => {
 app.use('/', express.static(path.join(__dirname, '../client/dist')));
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`App listening at http://localhost:${port}`);
 });

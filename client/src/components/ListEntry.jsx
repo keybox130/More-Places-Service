@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import styled from 'styled-components';
@@ -10,8 +11,8 @@ const FlexColumn = styled.div`
   min-width: 260px;
   min-height: 300px;
   margin: 0px 10px 0px 10px;
+  max-width: 66.6667%;
   scroll-snap-type: x mandatory;
-
 `;
 
 const ImgFlexRow = styled.div`
@@ -23,6 +24,8 @@ const ImgFlexRow = styled.div`
   height: 180px;
   position: sticky;
   margin-bottom: 9px;
+  scroll-snap-type: x mandatory;
+
 `;
 
 const House = styled.img`
