@@ -98,12 +98,12 @@ class Favorites extends React.Component {
       ? <Img alt="icon" src={image} />
       : <h1>Loading...</h1>;
     return (
-      <FlexRow>
+      <FlexRow onClick={this.addToList}>
         <div>
           {imageUrl}
         </div>
         <FlexColumn>
-          <ListItem onClick={this.addToList}>
+          <ListItem>
             <div>
               <Type>Any time</Type>
             </div>

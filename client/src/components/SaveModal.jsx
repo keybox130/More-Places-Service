@@ -56,6 +56,20 @@ const Modal = styled.div`
       opacity: 100%;
     }
   }
+  // &.enter {
+  //    animation-name: slideIn;
+  //    animation-duration: ms;
+  //    animation-fill-mode: both;
+  //    /* should start animation after dim/blur animation completes */
+  //    animation-delay: ms;
+  //    animation-timing-function: cubic-bezier(0.8, 0.2, 0.2, 0.8);
+  //  }
+  //  &.exit {
+  //    animation-name: slideOut;
+  //    animation-duration: ms;
+  //    animation-fill-mode: both;
+  //    animation-timing-function: cubic-bezier(0.8, 0.2, 0.2, 0.8);
+  //  }
 `;
 
 const Header = styled.div`
@@ -192,7 +206,15 @@ class SaveModal extends React.Component {
           <div>
             <List>
               {favorites.map((favorite) => (
-                <Favorites key={favorite.id} id={favorite.id} name={favorite.name} count={favorite.count} image={favorite.img} updateList={updateList} handleClose={this.handleClose} />
+                <Favorites
+                  key={favorite._id}
+                  id={favorite._id}
+                  name={favorite.name}
+                  count={favorite.count}
+                  image={favorite.img}
+                  updateList={updateList}
+                  handleClose={this.handleClose}
+                />
               ))}
             </List>
           </div>

@@ -147,6 +147,8 @@ class ListEntry extends React.Component {
     });
   }
 
+  // store which list of favorites listing is added to for removal when heart untoggles
+
   render() {
     const { photo, refs, index } = this.props;
     const { saved } = this.state;

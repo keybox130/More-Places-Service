@@ -94,6 +94,10 @@ const HeaderTitle = styled.div`
   margin-right: 16px;
 `;
 
+const Space = styled.div`
+  // padding: 32px;
+`;
+
 const Entry = styled.div`
   position: relative;
   cursor: text;
@@ -108,11 +112,39 @@ const Entry = styled.div`
   font-size: 16px;
   line-height: 20px;
   font-weight: 400;
+  &.hasFocus {
+    color: rgb(34, 34, 34);
+    border-width: 2px;
+    border-color: black;
+  }
+  &.noFocus {
+    border-width: 1px;
+    border-color:
+  }
 `;
 
-const Input = styled.div`
-  color: rgb(113, 113, 113)
+const Form = styled.div`
+  color: rgb(113, 113, 113);
+  border; none;
+  outline: none;
+  background-color: transparent;
   `;
+
+const Input = styled.input`
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 0px;
+  margin: 26px 12px 10px;
+  min-height: 1px;
+  color: inherit;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  appearance: none;
+`;
 
 const Create = styled.footer`
   -webkit-box-pack: justify;
@@ -128,7 +160,7 @@ const Create = styled.footer`
 `;
 
 const CreateList = styled.button`
-  cursor: not-allowed;
+  // cursor: not-allowed;
   opacity: 1;
   border: none;
   background: rgb(221, 221, 221);
@@ -156,15 +188,18 @@ class CreateModal extends React.Component {
     super(props);
     this.state = {
       name: '',
+      focus: null,
     };
     this.handleClose = this.handleClose.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
   }
 
   handleClose() {
-    const { handleModal } = this.props;
-    handleModal();
+    const { createModal } = this.props;
+    createModal();
   }
 
   handleChange(e) {
@@ -176,13 +211,26 @@ class CreateModal extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { createAList } = this.props;
+    const { createAList, image, createModal } = this.props;
     const { name } = this.state;
-    createAList(name);
+    createAList(name, image);
+    createModal();
+  }
+
+  handleFocus() {
+    this.setState({
+      focus: 'hasFocus',
+    });
+  }
+
+  handleBlur() {
+    this.setState({
+      focus: 'noFocus',
+    });
   }
 
   render() {
-    const { name } = this.state;
+    const { name, focus } = this.state;
     const { createAList } = this.props;
     return (
       <Page>
@@ -198,22 +246,27 @@ class CreateModal extends React.Component {
               <HeaderTitle>Name this list</HeaderTitle>
             </Title>
           </Header>
-          <div>
+          <Space>
             <Entry>
-              <form onSubmit={this.handleSubmit}>
-                <label>
-                  <Input>Name</Input>
-                  <input
+              <label>
+                <Form>
+                  <Input
+                    placeholder="Name"
+                    className={focus}
+                    onFocus={this.handleFocus}
+                    onBlur={this.handleBlur}
                     type="text"
                     value={name}
-                    onChange={this.handleChange} />
-                </label>
-              </form>
+                    onChange={this.handleChange}
+                  />
+                </Form>
+              </label>
             </Entry>
-          </div>
+            <div>50 characters maximum</div>
+          </Space>
           <div>
             <Create>
-              <CreateList onClick={createAList}>Create</CreateList>
+              <CreateList onClick={this.handleSubmit}>Create</CreateList>
             </Create>
           </div>
         </Modal>

@@ -199,20 +199,28 @@ class App extends React.Component {
   createModal() {
     const { modal, createModal } = this.state;
     this.setState({
-      modal: !modal,
       createModal: !createModal,
     });
   }
 
   // handle creating a new list
-  createAList(name) {
-    axios.post('/favorites/', {
-      name: [name],
-      count: Math.floor(Math.random() * 50),
+  createAList(name, image) {
+    const { createModal, imageUrl } = this.state;
+    axios({
+      method: 'post',
+      url: '/favorites/',
+      data: {
+        name: name,
+        count: 1,
+        img: imageUrl,
+      },
     })
-      .then(() => (
-        this.getFavorites()
-      ))
+      .then(() => {
+        this.getFavorites();
+        this.setState({
+          createModal: !createModal,
+        });
+      })
       .catch(console.log);
   }
 
@@ -224,7 +232,7 @@ class App extends React.Component {
       ? <List listings={listings[0]} refs={refs} openModal={this.handleModal} />
       : <h1>Loading...</h1>;
     const modalPop = modal && createModal
-      ? <CreateModal handleModal={this.handleModal} />
+      ? <CreateModal handleModal={this.handleModal} createAList={this.createAList} createModal={this.createModal} />
       : modal
       ? <SaveModal handleModal={this.handleModal} favorites={favorites} createModal={this.createModal} updateList={this.updateList} />
       : <div />;

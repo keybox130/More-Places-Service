@@ -3,10 +3,10 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const path = require('path');
-// const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 const { Listing, Favorites } = require('../database/index.js');
 
-// app.use('/', bodyParser.json());
+app.use('/', bodyParser.json());
 
 // get All
 app.get('/stays/', (req, res) => {
@@ -40,6 +40,18 @@ app.get('/favorites/', (req, res) => {
     } else {
       console.log(data);
       res.status(200).send(data);
+    }
+  });
+});
+
+app.post('/favorites/', (req, res) => {
+  console.log('Post req.body: ', req.body);
+  Favorites.create(req.body, (err, data) => {
+    if (err) {
+      res.status(400).send(err);
+    } else {
+      console.log('Posted successfully: ', data);
+      res.status(200).send();
     }
   });
 });
