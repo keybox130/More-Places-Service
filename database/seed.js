@@ -1,4 +1,4 @@
-const { Listing } = require('./index');
+const { Listing, Favorites } = require('./index');
 const { db } = require('./index');
 
 db.dropDatabase();
@@ -188,6 +188,34 @@ const generatePhotos = () => {
   return photos;
 };
 
+const randList = () => {
+  const randLists = [
+    'Weekend Getaway',
+    'Home away from home',
+    'Tahoe trips',
+    'Birthday stays',
+    'Beach houses',
+    'Family trips',
+    'Design inspos',
+    'Business trips',
+    'Hiking trips',
+  ];
+  return randLists[random(0, randLists.length - 1, true)];
+};
+
+const generateLists = () => {
+  const lists = [];
+  for (let k = 0; k < 3; k += 1) {
+    const list = {};
+    list.id = k + 1;
+    list.name = randList();
+    list.count = random(0, 50, true);
+    list.img = imageUrl();
+    lists.push(list);
+  }
+  return lists;
+};
+
 const seed = (/* callback */) => {
   const results = [];
   for (let i = 1; i <= 100; i += 1) {
@@ -201,7 +229,18 @@ const seed = (/* callback */) => {
       console.log(err);
       // callback(err);
     } else {
-      console.log('Seeding successful! ', data);
+      console.log('Seeding Listings successful! ', data);
+      // console.log(Listing.find());
+      // callback('Added to db: ', data);
+    }
+  });
+  const favorites = generateLists();
+  Favorites.insertMany(favorites, (err, data) => {
+    if (err) {
+      console.log(err);
+      // callback(err);
+    } else {
+      console.log('Seeding Listings successful! ', data);
       // console.log(Listing.find());
       // callback('Added to db: ', data);
     }

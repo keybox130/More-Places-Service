@@ -123,21 +123,31 @@ class ListEntry extends React.Component {
       saved: false,
     };
     this.heartClick = this.heartClick.bind(this);
+    this.heartFill = this.heartFill.bind(this);
   }
 
   heartClick(e) {
     e.preventDefault();
     const { saved } = this.state;
-    const { modal } = this.props;
-    // if heart is saved, change to fill
-    // else pop up modal
+    const { modal, photo } = this.props;
+    // if heart is not filled when clicked, pop up modal
     if (!saved) {
-      modal();
+      modal(photo.image);
     }
+    // else (heart is filled alr), change heart toggle to empty
     this.setState({
       saved: !saved,
+      // saved: false,
     });
   }
+
+  heartFill() {
+    this.setState({
+      saved: true,
+    });
+  }
+
+  // store which list of favorites listing is added to for removal when heart untoggles
 
   render() {
     const { photo, refs, index } = this.props;
@@ -151,9 +161,6 @@ class ListEntry extends React.Component {
         <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false"><path d="m16 28c7-4.733 14-10 14-17 0-1.792-.683-3.583-2.05-4.95-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05l-2.051 2.051-2.05-2.051c-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05-1.367 1.367-2.051 3.158-2.051 4.95 0 7 7 12.267 14 17z" /></svg>
       </EmptyHeart>
     );
-    // const reviews = photo.reviews === null
-    //   ? <small />
-    //   : <small>{photo.reviews}</small>;
 
     return (
       <FlexColumn ref={refs[index]}>
@@ -184,7 +191,5 @@ class ListEntry extends React.Component {
     );
   }
 }
-
-// <svg aria-hidden="true" xmlns="https://keybox-houses.s3-us-west-1.amazonaws.com/favorite_border-24px.svg" />
 
 export default ListEntry;
