@@ -12,6 +12,7 @@ import CreateModal from './CreateModal.jsx';
 const All = styled.div`
   font-family: 'Montserrat', sans-serif;
   background-color: rgb(247, 247, 247);
+  background-color: rgb(255, 255, 255);
   padding-left: 40px;
   padding-right: 40px;
 `;
@@ -76,7 +77,7 @@ const Button = styled.div`
     transform: scale(1.04);
 `;
 
-class App extends React.Component {
+class MorePlaces extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -164,7 +165,7 @@ class App extends React.Component {
   }
 
   getFavorites() {
-    axios('/favorites/')
+    axios('/more-places/favorites/')
       .then((list) => {
         this.setState({
           favorites: list.data,
@@ -174,7 +175,7 @@ class App extends React.Component {
   }
 
   get(roomId) {
-    axios(`/stays/${roomId}`)
+    axios(`/more-places/stays/${roomId}`)
       .then((list) => {
         this.setState({
           listings: list.data,
@@ -200,7 +201,7 @@ class App extends React.Component {
   }
 
   updateList(id, count) {
-    axios.put(`/favorites/${id}/${count}`)
+    axios.put(`/more-places/favorites/${id}/${count}`)
       .then(() => (
         this.getFavorites()
       ))
@@ -220,7 +221,7 @@ class App extends React.Component {
     const { createModal, imageUrl } = this.state;
     axios({
       method: 'post',
-      url: '/favorites/',
+      url: '/more-places/favorites/',
       data: {
         id,
         name,
@@ -294,4 +295,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default MorePlaces;
