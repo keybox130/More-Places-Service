@@ -148,7 +148,7 @@ class MorePlaces extends React.Component {
   }
 
   getAll() {
-    axios('/stays/')
+    axios('/more-places/stays/')
       .then((list) => {
         this.setState({
           listings: list.data,
@@ -158,7 +158,7 @@ class MorePlaces extends React.Component {
   }
 
   get(roomId) {
-    axios(`/stays/${roomId}`)
+    axios(`/more-places/stays/${roomId}`)
       .then((list) => {
         this.setState({
           listings: list.data,
@@ -168,7 +168,7 @@ class MorePlaces extends React.Component {
   }
 
   getFavorites() {
-    axios('/favorites/')
+    axios('/more-places/favorites/')
       .then((list) => {
         this.setState({
           favorites: list.data,
@@ -182,7 +182,7 @@ class MorePlaces extends React.Component {
     const { modal } = this.state;
     this.setState({
       modal: !modal,
-      imageUrl: imageUrl,
+      imageUrl,
     });
   }
 
@@ -194,7 +194,7 @@ class MorePlaces extends React.Component {
   }
 
   updateList(id, count) {
-    axios.put(`/favorites/${id}/${count}`)
+    axios.put(`/more-places/favorites/${id}/${count}`)
       .then(() => (
         this.getFavorites()
       ))
@@ -214,9 +214,9 @@ class MorePlaces extends React.Component {
     const { createModal, imageUrl } = this.state;
     axios({
       method: 'post',
-      url: '/favorites/',
+      url: '/more-places/favorites/',
       data: {
-        name: name,
+        name,
         count: 1,
         img: imageUrl,
       },
