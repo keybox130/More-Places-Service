@@ -1,9 +1,9 @@
 version: '3'
 services:
   app:
-    container_name: katpoa/more-places-proxy
-    image: katpoa/more-places-proxy:latest
+    container_name: katpoa/more-places-proxy-1
+    image: katpoa/more-places-proxy-1:latest
     restart: always
-    build: ./
+    build: .
     ports:
       - "80:3000"
