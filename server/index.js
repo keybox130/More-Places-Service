@@ -4,13 +4,13 @@ const app = express();
 const port = 3000;
 const path = require('path');
 const bodyParser = require('body-parser');
-const model = require('../database/index.js');
+const { Listing, Favorites } = require('../database/index.js');
 
 app.use('/', bodyParser.json());
 
 // get All
 app.get('/more-places/stays/', (req, res) => {
-  model.Listing.find({}).exec((err, data) => {
+  Listing.find({}).exec((err, data) => {
     if (err) {
       res.status(400).send(err);
     } else {
@@ -22,7 +22,7 @@ app.get('/more-places/stays/', (req, res) => {
 
 app.get('/more-places/stays/:roomId', (req, res) => {
   const { roomId } = req.params;
-  model.Listing.find({ id: roomId }).exec((err, data) => {
+  Listing.find({ id: roomId }).exec((err, data) => {
     if (err) {
       res.status(400).send(err);
     } else {
@@ -34,7 +34,7 @@ app.get('/more-places/stays/:roomId', (req, res) => {
 
 // get All for list of favorites
 app.get('/more-places/favorites/', (req, res) => {
-  model.Favorites.find({}).exec((err, data) => {
+  Favorites.find({}).exec((err, data) => {
     if (err) {
       res.status(400).send(err);
     } else {
@@ -46,7 +46,7 @@ app.get('/more-places/favorites/', (req, res) => {
 
 app.post('/more-places/favorites/', (req, res) => {
   console.log('Post req.body: ', req.body);
-  model.Favorites.create(req.body, (err, data) => {
+  Favorites.create(req.body, (err, data) => {
     if (err) {
       res.status(400).send(err);
     } else {
@@ -58,7 +58,7 @@ app.post('/more-places/favorites/', (req, res) => {
 
 app.put('/more-places/favorites/:id/:count', (req, res) => {
   const { id, count } = req.params;
-  model.Favorites.findOneAndUpdate({ id }, { count }).exec((err, data) => {
+  Favorites.findOneAndUpdate({ id }, { count }).exec((err, data) => {
     if (err) {
       res.status(400).send(err);
     } else {
@@ -71,5 +71,5 @@ app.put('/more-places/favorites/:id/:count', (req, res) => {
 app.use('/', express.static(path.join(__dirname, '../client/dist')));
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`App listening at http://localhost:${port}`);
 });

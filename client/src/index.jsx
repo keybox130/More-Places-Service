@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 import React from 'react';
 import ReactDom from 'react-dom';
 import MorePlaces from './components/App.jsx';

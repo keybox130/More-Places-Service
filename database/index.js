@@ -1,14 +1,19 @@
 const mongoose = require('mongoose');
 const seed = require('./seed.js');
 
-mongoose.connect('mongodb://172.17.0.2:27017/airbnb', { useNewUrlParser: true });
-
-const db = mongoose.connection;
-db.on('error', () => { console.error.bind(console, 'connection error:'); });
-db.once('open', () => {
-  console.log('Connection open!');
+// mongoose.connect('mongodb://localhost:27017/airbnb', { useNewUrlParser: true });
+mongoose.connect('mongodb://localhost:27017/airbnb', { useNewUrlParser: true }, { useUnifiedTopology: true }).then(() => {
+  console.log('Connected to Database');
   seed.seed();
+}).catch((err) => {
+  console.log('Not Connected to Database ERROR!', err);
 });
+const db = mongoose.connection;
+// db.on('error', () => { console.error.bind(console, 'connection error:'); });
+// db.once('open', () => {
+//   console.log('Connection open!');
+//   seed.seed();
+// });
 
 const listingSchema = mongoose.Schema({
   // id: { type: Number, unique: true },
