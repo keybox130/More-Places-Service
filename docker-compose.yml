@@ -1,0 +1,9 @@
+version: '3'
+services:
+  app:
+    container_name: katpoa/katpoa-more-places
+    image: katpoa/more-places:latest
+    restart: always
+    build: .
+    ports:
+      - "80:3000"
