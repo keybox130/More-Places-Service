@@ -70,7 +70,7 @@ const Button = styled.div`
     transform: scale(1.04);
 `;
 
-class App extends React.Component {
+class MorePlaces extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -273,4 +273,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default MorePlaces;

@@ -1,7 +1,7 @@
-const { Listing, Favorites } = require('./index');
-const { db } = require('./index');
+// const { Listing, Favorites, db } = require('./index.js');
+const model = require('./index.js');
 
-db.dropDatabase();
+// db.dropDatabase();
 
 const random = (min, max, floor) => {
   let num;
@@ -224,7 +224,7 @@ const seed = (/* callback */) => {
     roomData.photos = generatePhotos();
     results.push(roomData);
   }
-  Listing.insertMany(results, (err, data) => {
+  model.Listing.insertMany(results, (err, data) => {
     if (err) {
       console.log(err);
       // callback(err);
@@ -235,7 +235,7 @@ const seed = (/* callback */) => {
     }
   });
   const favorites = generateLists();
-  Favorites.insertMany(favorites, (err, data) => {
+  model.Favorites.insertMany(favorites, (err, data) => {
     if (err) {
       console.log(err);
       // callback(err);
@@ -247,4 +247,4 @@ const seed = (/* callback */) => {
   });
 };
 
-seed();
+module.exports.seed = seed;

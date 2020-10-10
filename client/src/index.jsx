@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import App from './components/App.jsx';
+import MorePlaces from './components/App.jsx';
 
 ReactDom.render(
-  <App />,
-  document.getElementById('app'),
+  <MorePlaces />,
+  document.getElementById('more-places'),
 );

@@ -1,10 +1,14 @@
 const mongoose = require('mongoose');
+const seed = require('./seed.js');
 
-mongoose.connect('mongodb://localhost/airbnb', { useNewUrlParser: true });
+mongoose.connect('mongodb://172.17.0.2:27017/airbnb', { useNewUrlParser: true });
 
 const db = mongoose.connection;
 db.on('error', () => { console.error.bind(console, 'connection error:'); });
-db.once('open', () => { console.log('Connection open!'); });
+db.once('open', () => {
+  console.log('Connection open!');
+  seed.seed();
+});
 
 const listingSchema = mongoose.Schema({
   // id: { type: Number, unique: true },
@@ -34,8 +38,6 @@ const favoritesSchema = mongoose.Schema({
 
 const Favorites = mongoose.model('Favorites', favoritesSchema);
 
-module.exports = {
-  Listing,
-  Favorites,
-  db,
-};
+module.exports.Listing = Listing;
+module.exports.Favorites = Favorites;
+module.exports.db = db;
