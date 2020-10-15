@@ -21,8 +21,7 @@ const Body = styled.div`
   // background-color: rgb(255, 255, 255);
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
-  max-width: 1110px;
+  max-width: 1100px;
   margin: auto;
   justify-content: center;
   align-items: stretch;
@@ -33,11 +32,12 @@ const FlexRow = styled.div`
   align-items: center;
   justify-content: space-between;
   position: relative;
-  overflow: auto;
+  overflow: hidden;
   flex-direction: row;
-  max-width: 1110px;
+  max-width: 1100px;
   min-height: 40px;
   margin: auto;
+
 `;
 
 const Header = styled.h1`

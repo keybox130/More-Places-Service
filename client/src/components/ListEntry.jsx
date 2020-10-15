@@ -12,7 +12,8 @@ const FlexColumn = styled.div`
   min-height: 300px;
   margin: 0px 10px 0px 10px;
   max-width: 66.6667%;
-  scroll-snap-type: x mandatory;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 `;
 
 const ImgFlexRow = styled.div`
@@ -24,8 +25,6 @@ const ImgFlexRow = styled.div`
   height: 180px;
   position: sticky;
   margin-bottom: 9px;
-  scroll-snap-type: x mandatory;
-
 `;
 
 const House = styled.img`
