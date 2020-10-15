@@ -8,7 +8,6 @@ import ListEntry from './ListEntry.jsx';
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  overflow-x: auto;
   white-space: nowrap;
   // justify-content: center;
   margin: auto;
@@ -21,7 +20,12 @@ const Container = styled.div`
   justify-content: flex-start !important;
   width: 100% !important;
   margin-left: 0px !important;
+  overflow-x: hidden;
   margin-right: 0px !important;
+  scroll-snap-type: x mandatory;
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+  }
 `;
 
 const List = ({ listings, refs, openModal }) => (
