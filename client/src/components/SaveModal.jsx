@@ -32,6 +32,7 @@ const Page = styled.div`
 const Modal = styled.div`
   z-index: 200;
   width: 100%;
+  overflow-y: scroll;
   max-width: 568px;
   border-radius: 12px;
   background: rgb(255, 255, 255);
@@ -114,7 +115,7 @@ const Title = styled.header`
 
 const HeaderTitle = styled.div`
   -webkit-box-flex: 0;
-  overflow: hidden;
+  // overflow: hidden;
   flex: 0 1 auto;
   text-align: center;
   margin-left: 16px;
@@ -123,7 +124,7 @@ const HeaderTitle = styled.div`
 
 const List = styled.div`
   padding: 20px 16px;
-  overflow-y: auto;
+  overflow-y: scroll;
 `;
 
 const Create = styled.footer`
